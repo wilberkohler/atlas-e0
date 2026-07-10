@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://workbenchplaceholder"]
+
+[ext_resource type="Script" path="res://scripts/environment/workbench.gd" id="1_workbench"]
+
+[node name="Workbench" type="Node3D"]
+script = ExtResource("1_workbench")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://petbottleplaceholder"]
+
+[ext_resource type="Script" path="res://scripts/interaction/draggable_part_3d.gd" id="1_part"]
+
+[node name="PetBottle" type="Node3D"]
+script = ExtResource("1_part")
+part_id = "pet_bottle"
+part_type = &"body"
+display_name = "Garrafa PET"
+description = "Corpo fixo da montagem. As outras peças se encaixam ao redor dela."
+shape_style = &"bottle"
+can_drag = false
+can_rotate = false
+snap_enabled = false
+rest_height = 0.62

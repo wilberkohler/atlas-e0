@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://launchstandplaceholder"]
+
+[ext_resource type="Script" path="res://scripts/props/launch_stand.gd" id="1_stand"]
+
+[node name="LaunchStand" type="Node3D"]
+script = ExtResource("1_stand")

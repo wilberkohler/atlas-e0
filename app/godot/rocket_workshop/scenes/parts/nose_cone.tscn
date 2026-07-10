@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://noseconeplaceholder"]
+
+[ext_resource type="Script" path="res://scripts/interaction/draggable_part_3d.gd" id="1_part"]
+
+[node name="NoseCone" type="Node3D"]
+script = ExtResource("1_part")
+part_id = "nose_cone"
+part_type = &"nose"
+display_name = "Cone"
+description = "Vai no bico da garrafa. Se ficar torto, o voo tende a desviar."
+shape_style = &"cone"
+rest_height = 0.36

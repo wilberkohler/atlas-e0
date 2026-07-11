@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "experience_id": "vertical_slice_pet_v1",
+  "fixture": true,
+  "value_policy": "normalized_fictional_internal_values",
+  "attempts": [
+    {
+      "session_id": "sample_session_v1",
+      "attempt_id": "sample_attempt_001",
+      "timestamp_utc": "2026-07-11T15:00:00Z",
+      "assembly_time_seconds": 18.4,
+      "first_piece_touched": "fin_1",
+      "interaction_order": ["fin_1", "fin_2", "fin_3", "tape_roll", "water_pitcher", "pet_bottle"],
+      "fin_positions": [
+        {"fin_id": "fin_1", "angular_position": 0.0},
+        {"fin_id": "fin_2", "angular_position": 0.333},
+        {"fin_id": "fin_3", "angular_position": 0.667}
+      ],
+      "fin_angles": [
+        {"fin_id": "fin_1", "tilt": 0.01, "orientation": 0.0},
+        {"fin_id": "fin_2", "tilt": -0.01, "orientation": 0.01},
+        {"fin_id": "fin_3", "tilt": 0.0, "orientation": -0.01}
+      ],
+      "fin_heights": [
+        {"fin_id": "fin_1", "height": 0.50},
+        {"fin_id": "fin_2", "height": 0.51},
+        {"fin_id": "fin_3", "height": 0.49}
+      ],
+      "fin_attachment_quality": [
+        {"fin_id": "fin_1", "quality": 0.90, "fixed": true, "reposition_count": 1},
+        {"fin_id": "fin_2", "quality": 0.88, "fixed": true, "reposition_count": 1},
+        {"fin_id": "fin_3", "quality": 0.89, "fixed": true, "reposition_count": 0}
+      ],
+      "cone_alignment": 0.95,
+      "water_level": 0.54,
+      "energy_level": 0.76,
+      "time_to_launch_seconds": 25.1,
+      "trajectory_space": "attempt_local_normalized",
+      "trajectory": [
+        {"t": 0.0, "position": {"x": 0.0, "y": 0.0, "z": 0.0}, "rotation": 0.0, "phase": "anticipation"},
+        {"t": 0.18, "position": {"x": 0.0, "y": 0.31, "z": 0.0}, "rotation": 0.01, "phase": "thrust"},
+        {"t": 0.45, "position": {"x": 0.01, "y": 0.76, "z": 0.0}, "rotation": 0.02, "phase": "coast"},
+        {"t": 0.58, "position": {"x": 0.01, "y": 0.82, "z": 0.01}, "rotation": 0.03, "phase": "apex"},
+        {"t": 1.0, "position": {"x": 0.02, "y": 0.0, "z": 0.01}, "rotation": 0.04, "phase": "impact"}
+      ],
+      "max_height": 0.82,
+      "time_to_apex_seconds": 2.38,
+      "lateral_displacement": 0.04,
+      "total_rotation": 0.04,
+      "impact_position": {"x": 0.02, "y": 0.0, "z": 0.01},
+      "changes_after_flight": 2,
+      "time_to_next_attempt_seconds": 7.2,
+      "launched_again": true,
+      "wind_seed": 4242,
+      "flight_completed": true
+    },
+    {
+      "session_id": "sample_session_v1",
+      "attempt_id": "sample_attempt_002",
+      "timestamp_utc": "2026-07-11T15:01:00Z",
+      "assembly_time_seconds": 6.8,
+      "first_piece_touched": "fin_1",
+      "interaction_order": ["fin_1", "tape_roll", "pet_bottle"],
+      "fin_positions": [
+        {"fin_id": "fin_1", "angular_position": 0.02},
+        {"fin_id": "fin_2", "angular_position": 0.43}
+      ],
+      "fin_angles": [
+        {"fin_id": "fin_1", "tilt": 0.28, "orientation": 0.34},
+        {"fin_id": "fin_2", "tilt": -0.04, "orientation": -0.02}
+      ],
+      "fin_heights": [
+        {"fin_id": "fin_1", "height": 0.34},
+        {"fin_id": "fin_2", "height": 0.68}
+      ],
+      "fin_attachment_quality": [
+        {"fin_id": "fin_1", "quality": 0.52, "fixed": true, "reposition_count": 2},
+        {"fin_id": "fin_2", "quality": 0.80, "fixed": true, "reposition_count": 1}
+      ],
+      "cone_alignment": 0.36,
+      "water_level": 0.50,
+      "energy_level": 0.72,
+      "time_to_launch_seconds": 12.6,
+      "trajectory_space": "attempt_local_normalized",
+      "trajectory": [
+        {"t": 0.0, "position": {"x": 0.0, "y": 0.0, "z": 0.0}, "rotation": 0.0, "phase": "anticipation"},
+        {"t": 0.18, "position": {"x": 0.08, "y": 0.28, "z": -0.04}, "rotation": 0.18, "phase": "thrust"},
+        {"t": 0.44, "position": {"x": 0.46, "y": 0.70, "z": -0.22}, "rotation": 0.42, "phase": "coast"},
+        {"t": 0.57, "position": {"x": 0.63, "y": 0.76, "z": -0.31}, "rotation": 0.51, "phase": "apex"},
+        {"t": 1.0, "position": {"x": 0.88, "y": 0.0, "z": -0.44}, "rotation": 0.58, "phase": "impact"}
+      ],
+      "max_height": 0.76,
+      "time_to_apex_seconds": 2.24,
+      "lateral_displacement": 0.88,
+      "total_rotation": 0.58,
+      "impact_position": {"x": 0.88, "y": 0.0, "z": -0.44},
+      "changes_after_flight": 0,
+      "time_to_next_attempt_seconds": -1.0,
+      "launched_again": false,
+      "wind_seed": 4242,
+      "flight_completed": true
+    }
+  ]
+}

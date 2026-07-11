@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="VS1FlightProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/launch/flight_profile.gd" id="1_profile"]
+
+[resource]
+script = ExtResource("1_profile")
+preset_id = "spin"
+fin_count = 3
+fin_positions = PackedFloat32Array(0.0, 0.333, 0.667)
+fin_tilts = PackedFloat32Array(0.62, 0.02, -0.03)
+fin_heights = PackedFloat32Array(0.51, 0.49, 0.50)
+fin_orientations = PackedFloat32Array(0.48, 0.0, -0.02)
+fixation_quality = PackedFloat32Array(0.48, 0.82, 0.80)
+cone_present = true
+cone_deviation = 0.04
+cone_centering = 0.90
+cone_fixation = 0.72
+water_level = 0.54
+energy_level = 0.76
+wind_seed = 4242

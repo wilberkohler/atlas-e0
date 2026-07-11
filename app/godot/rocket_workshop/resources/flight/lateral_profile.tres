@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="VS1FlightProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/launch/flight_profile.gd" id="1_profile"]
+
+[resource]
+script = ExtResource("1_profile")
+preset_id = "lateral"
+fin_count = 2
+fin_positions = PackedFloat32Array(0.02, 0.43)
+fin_tilts = PackedFloat32Array(0.18, -0.04)
+fin_heights = PackedFloat32Array(0.38, 0.64)
+fin_orientations = PackedFloat32Array(0.22, -0.03)
+fixation_quality = PackedFloat32Array(0.58, 0.78)
+cone_present = true
+cone_deviation = 0.32
+cone_centering = 0.62
+cone_fixation = 0.56
+water_level = 0.50
+energy_level = 0.72
+wind_seed = 4242

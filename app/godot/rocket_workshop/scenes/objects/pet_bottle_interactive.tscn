@@ -1,0 +1,133 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction/tactile_drag_controller.gd" id="1_drag"]
+[ext_resource type="Script" path="res://scripts/interaction/rotation_controller.gd" id="2_rotate"]
+[ext_resource type="Script" path="res://scripts/interaction/vs1_snap_zone_3d.gd" id="3_snap"]
+[ext_resource type="PackedScene" path="res://assets_3d/export/v2/pet_bottle.glb" id="4_asset"]
+
+[sub_resource type="BoxShape3D" id="BottleShape"]
+size = Vector3(0.90, 2.72, 0.90)
+
+[sub_resource type="CylinderMesh" id="LiquidMesh"]
+top_radius = 0.30
+bottom_radius = 0.30
+height = 2.05
+radial_segments = 24
+
+[sub_resource type="StandardMaterial3D" id="LiquidMaterial"]
+transparency = 1
+albedo_color = Color(0.16, 0.62, 0.94, 0.58)
+roughness = 0.12
+metallic = 0.04
+
+[sub_resource type="QuadMesh" id="ShadowMesh"]
+size = Vector2(0.92, 0.78)
+
+[sub_resource type="StandardMaterial3D" id="ShadowMaterial"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.035, 0.045, 0.055, 0.22)
+
+[sub_resource type="BoxShape3D" id="FinZoneShape"]
+size = Vector3(0.30, 0.72, 0.32)
+
+[sub_resource type="CylinderShape3D" id="NoseZoneShape"]
+radius = 0.38
+height = 0.16
+
+[node name="PetBottleInteractive" type="Node3D" groups=["vs1_interactive_objects"]]
+script = ExtResource("1_drag")
+part_id = &"pet_bottle"
+part_kind = &"bottle"
+lift_height = 0.18
+ground_clearance = 1.23
+follow_speed = 12.0
+rotation_follow_speed = 14.0
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="PetBottleV2" parent="Visual" instance=ExtResource("4_asset")]
+
+[node name="LiquidVisual" type="MeshInstance3D" parent="."]
+visible = false
+position = Vector3(0, -0.974, 0)
+scale = Vector3(1, 0.006, 1)
+mesh = SubResource("LiquidMesh")
+material_override = SubResource("LiquidMaterial")
+metadata/bottom_y = -0.98
+metadata/maximum_height = 2.05
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+position = Vector3(0.02, 0.11, 0)
+shape = SubResource("BottleShape")
+
+[node name="BlobShadow" type="MeshInstance3D" parent="."]
+position = Vector3(0, -1.222, 0)
+cast_shadow = 0
+mesh = SubResource("ShadowMesh")
+material_override = SubResource("ShadowMaterial")
+
+[node name="RotationController" type="Node" parent="."]
+script = ExtResource("2_rotate")
+
+[node name="PourReceiver" type="Node3D" parent="." groups=["vs1_water_receivers"]]
+position = Vector3(0, 1.45, 0)
+
+[node name="FinSnapA" type="Area3D" parent="." groups=["vs1_tape_junctions"]]
+position = Vector3(0.43, -0.69, 0)
+rotation = Vector3(0, 1.5708, 0)
+script = ExtResource("3_snap")
+zone_id = "fin_a"
+accepted_type = &"fin"
+tolerance = 0.46
+magnetic_radius = 0.82
+hint_visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FinSnapA"]
+shape = SubResource("FinZoneShape")
+
+[node name="FinSnapB" type="Area3D" parent="." groups=["vs1_tape_junctions"]]
+position = Vector3(-0.215, -0.69, 0.372)
+rotation = Vector3(0, -0.523599, 0)
+script = ExtResource("3_snap")
+zone_id = "fin_b"
+accepted_type = &"fin"
+tolerance = 0.46
+magnetic_radius = 0.82
+hint_visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FinSnapB"]
+shape = SubResource("FinZoneShape")
+
+[node name="FinSnapC" type="Area3D" parent="." groups=["vs1_tape_junctions"]]
+position = Vector3(-0.215, -0.69, -0.372)
+rotation = Vector3(0, -2.61799, 0)
+script = ExtResource("3_snap")
+zone_id = "fin_c"
+accepted_type = &"fin"
+tolerance = 0.46
+magnetic_radius = 0.82
+hint_visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FinSnapC"]
+shape = SubResource("FinZoneShape")
+
+[node name="NoseSnap" type="Area3D" parent="."]
+position = Vector3(0, 1.43, 0)
+script = ExtResource("3_snap")
+zone_id = "nose"
+accepted_type = &"nose"
+tolerance = 0.50
+magnetic_radius = 0.88
+use_planar_capture_distance = true
+hint_visible = false
+preserved_position_error = 0.055
+preserved_angle_error_degrees = 7.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NoseSnap"]
+shape = SubResource("NoseZoneShape")

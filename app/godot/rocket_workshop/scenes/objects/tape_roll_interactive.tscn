@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/interaction/tactile_drag_controller.gd" id="1_drag"]
+[ext_resource type="Script" path="res://scripts/interaction/rotation_controller.gd" id="2_rotate"]
+[ext_resource type="Script" path="res://scripts/interaction/tape_gesture_controller.gd" id="3_tape"]
+[ext_resource type="PackedScene" path="res://assets_3d/export/v2/tape_roll.glb" id="4_asset"]
+
+[sub_resource type="CylinderShape3D" id="TapeShape"]
+radius = 0.37
+height = 0.16
+
+[sub_resource type="QuadMesh" id="ShadowMesh"]
+size = Vector2(0.76, 0.70)
+
+[sub_resource type="StandardMaterial3D" id="ShadowMaterial"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.035, 0.045, 0.055, 0.22)
+
+[node name="TapeRollInteractive" type="Node3D" groups=["vs1_interactive_objects"]]
+script = ExtResource("1_drag")
+part_id = &"tape_roll"
+part_kind = &"tape"
+snap_enabled = false
+lift_height = 0.12
+ground_clearance = 0.07
+follow_speed = 16.0
+rotation_follow_speed = 18.0
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="TapeRollV2" parent="Visual" instance=ExtResource("4_asset")]
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("TapeShape")
+
+[node name="BlobShadow" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.062, 0)
+cast_shadow = 0
+mesh = SubResource("ShadowMesh")
+material_override = SubResource("ShadowMaterial")
+
+[node name="RotationController" type="Node" parent="."]
+script = ExtResource("2_rotate")
+
+[node name="TapeGestureController" type="Node" parent="."]
+script = ExtResource("3_tape")
+

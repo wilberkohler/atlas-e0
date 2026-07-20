@@ -13,6 +13,7 @@ var rotation_counts: Dictionary = {}
 var snap_attempts: int = 0
 var successful_snaps: int = 0
 var imperfect_snaps: int = 0
+var flight_summaries: Array[Dictionary] = []
 
 
 func _ready() -> void:
@@ -32,6 +33,7 @@ func reset() -> void:
 	snap_attempts = 0
 	successful_snaps = 0
 	imperfect_snaps = 0
+	flight_summaries.clear()
 	record("session", "start", {"detail": "3D workshop started"})
 
 
@@ -101,6 +103,14 @@ func record_launch(profile: String, evaluation: Dictionary) -> void:
 	})
 
 
+func record_flight_result(profile: String, summary: Dictionary) -> void:
+	best_trajectory = _best_profile(best_trajectory, profile)
+	var stored: Dictionary = summary.duplicate(true)
+	stored["profile"] = profile
+	flight_summaries.append(stored)
+	record("flight_result", profile, stored)
+
+
 func snapshot(assembly_summary: Dictionary = {}) -> Dictionary:
 	return {
 		"sessionStartedAtUnix": session_started_at,
@@ -115,6 +125,8 @@ func snapshot(assembly_summary: Dictionary = {}) -> Dictionary:
 		"successfulSnaps": successful_snaps,
 		"imperfectSnaps": imperfect_snaps,
 		"assembly": assembly_summary,
+		"lastFlight": flight_summaries.back() if not flight_summaries.is_empty() else {},
+		"flights": flight_summaries,
 		"events": events
 	}
 

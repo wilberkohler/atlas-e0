@@ -13,6 +13,7 @@ const TelemetryServiceScript := preload("res://scripts/telemetry/telemetry_servi
 const MinimalHUDScript := preload("res://scripts/ui/minimal_hud.gd")
 const DebugOverlayScript := preload("res://scripts/ui/debug_overlay.gd")
 const LaunchControllerScript := preload("res://scripts/launch/launch_controller.gd")
+const LaunchCameraRigScript := preload("res://scripts/flight/launch_camera_rig.gd")
 
 var camera: Camera3D = null
 var telemetry: Node = null
@@ -21,6 +22,7 @@ var debug_overlay: Node = null
 var assembly: Node = null
 var interaction: Node = null
 var launch_controller: Node = null
+var launch_camera_rig: Node = null
 var launch_stand: Node = null
 var loose_parts_root: Node3D = null
 var all_parts: Array[Node] = []
@@ -173,6 +175,10 @@ func _create_services_and_ui() -> void:
 	launch_controller.name = "LaunchController"
 	add_child(launch_controller)
 
+	launch_camera_rig = LaunchCameraRigScript.new()
+	launch_camera_rig.name = "LaunchCameraRig"
+	add_child(launch_camera_rig)
+
 	interaction = InteractionControllerScript.new()
 	interaction.name = "InteractionController"
 	add_child(interaction)
@@ -180,7 +186,8 @@ func _create_services_and_ui() -> void:
 
 func _wire_runtime() -> void:
 	assembly.configure(telemetry, loose_parts_root)
-	launch_controller.configure(assembly, telemetry, launch_stand)
+	launch_camera_rig.configure(camera)
+	launch_controller.configure(assembly, telemetry, launch_stand, launch_camera_rig)
 	interaction.configure(camera, assembly, telemetry, launch_controller)
 
 	assembly.readiness_changed.connect(_on_readiness_changed)
@@ -193,6 +200,7 @@ func _wire_runtime() -> void:
 	hud.reset_requested.connect(_on_reset_requested)
 	launch_controller.launch_started.connect(_on_launch_started)
 	launch_controller.launch_finished.connect(_on_launch_finished)
+	launch_controller.flight_metrics_updated.connect(_on_flight_metrics_updated)
 
 	_on_readiness_changed(assembly.is_ready_for_launch())
 	_update_progress_line()
@@ -256,16 +264,21 @@ func _on_reset_requested() -> void:
 
 
 func _on_launch_started(profile: String) -> void:
+	hud.set_context("Preparando lançamento. Observe altura, desvio e giro.")
+
+
+func _on_launch_finished(profile: String) -> void:
 	if profile == "stable":
-		hud.set_context("O foguete sobe quase reto. Montagem completa e equilibrada.")
+		hud.set_context("O conjunto subiu alinhado por mais tempo.")
 	elif profile == "reasonable_spin":
-		hud.set_context("O foguete ganha altura, mas gira. Encaixe a terceira aleta para estabilizar.")
+		hud.set_context("As aletas não estabilizaram todo o giro.")
 	else:
-		hud.set_context("O foguete salta pouco e perde estabilidade cedo.")
+		hud.set_context("A energia ou o alinhamento produziram um voo curto.")
+	if debug_overlay != null and debug_overlay.visible:
+		debug_overlay.set_snapshot(telemetry.snapshot(assembly.get_summary()))
 
 
-func _on_launch_finished(_profile: String) -> void:
-	hud.set_context("Voltou à bancada. Puxe uma peça para ajustar e testar de novo.")
+func _on_flight_metrics_updated(_summary: Dictionary) -> void:
 	if debug_overlay != null and debug_overlay.visible:
 		debug_overlay.set_snapshot(telemetry.snapshot(assembly.get_summary()))
 

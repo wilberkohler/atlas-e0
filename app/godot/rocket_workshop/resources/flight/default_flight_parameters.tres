@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FlightParameters" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/flight/flight_parameters.gd" id="1_params"]
+
+[resource]
+script = ExtResource("1_params")
+energy = 0.6
+fin_symmetry = 0.7
+fin_alignment = 0.7
+nose_alignment = 0.8
+attachment_quality = 0.7
+mass_balance = 0.7
+body_drag_factor = 0.45
+wind_strength = 0.18
+fin_count = 3
+flight_seed = 1001

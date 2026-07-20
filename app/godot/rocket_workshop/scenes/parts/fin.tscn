@@ -7,6 +7,6 @@ script = ExtResource("1_part")
 part_id = "fin"
 part_type = &"fin"
 display_name = "Aleta"
-description = "Ajuda a estabilizar o foguete. Encaixe pelo menos duas no corpo."
+description = "Ajuda a estabilizar o foguete. Encaixe as tres aletas no corpo."
 shape_style = &"fin"
 rest_height = 0.32

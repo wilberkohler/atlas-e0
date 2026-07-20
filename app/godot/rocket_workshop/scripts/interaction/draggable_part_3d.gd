@@ -148,6 +148,10 @@ func _ensure_visual() -> void:
 	_visual_root.name = "Visual"
 	add_child(_visual_root)
 
+	if _build_imported_visual():
+		_build_hitbox()
+		return
+
 	if shape_style == &"bottle":
 		_build_bottle()
 	elif shape_style == &"cone":
@@ -160,6 +164,62 @@ func _ensure_visual() -> void:
 		_build_box()
 
 	_build_hitbox()
+
+
+func _build_imported_visual() -> bool:
+	var asset_path: String = _asset_visual_path()
+	if asset_path.is_empty() or not ResourceLoader.exists(asset_path):
+		return false
+
+	var packed: PackedScene = load(asset_path) as PackedScene
+	if packed == null:
+		return false
+
+	var imported: Node3D = packed.instantiate() as Node3D
+	if imported == null:
+		return false
+
+	imported.name = "ImportedAssetVisual"
+	imported.transform = _asset_visual_transform()
+	_visual_root.add_child(imported)
+	_register_imported_materials(imported)
+	return true
+
+
+func _asset_visual_path() -> String:
+	if shape_style == &"bottle":
+		return "res://assets_3d/export/v3/pet_bottle_main.glb"
+	if shape_style == &"cone":
+		return "res://assets_3d/export/v3/nose_cone_a.glb"
+	if shape_style == &"fin":
+		return "res://assets_3d/export/v3/cardboard_fin_straight.glb"
+	if shape_style == &"elastic":
+		return "res://assets_3d/export/v3/elastic_set.glb"
+	return ""
+
+
+func _asset_visual_transform() -> Transform3D:
+	var transform: Transform3D = Transform3D.IDENTITY
+	if shape_style == &"elastic":
+		transform.origin = Vector3(-0.18, 0.0, 0.0)
+	return transform
+
+
+func _register_imported_materials(node: Node) -> void:
+	var mesh_instance: MeshInstance3D = node as MeshInstance3D
+	if mesh_instance != null and mesh_instance.mesh != null:
+		for surface_index: int in range(mesh_instance.mesh.get_surface_count()):
+			var source_material: Material = mesh_instance.get_surface_override_material(surface_index)
+			if source_material == null:
+				source_material = mesh_instance.mesh.surface_get_material(surface_index)
+			var standard_material: StandardMaterial3D = source_material as StandardMaterial3D
+			if standard_material != null:
+				var duplicated: StandardMaterial3D = standard_material.duplicate() as StandardMaterial3D
+				mesh_instance.set_surface_override_material(surface_index, duplicated)
+				_materials.append(duplicated)
+
+	for child: Node in node.get_children():
+		_register_imported_materials(child)
 
 
 func _build_bottle() -> void:

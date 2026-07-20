@@ -12,6 +12,8 @@ var _ready_for_launch: bool = false
 var _home_position: Vector3 = Vector3.ZERO
 var _home_rotation: Vector3 = Vector3.ZERO
 
+const REQUIRED_FIN_COUNT := 3
+
 
 func configure(new_telemetry: Node, new_loose_parts_root: Node3D) -> void:
 	telemetry = new_telemetry
@@ -132,7 +134,7 @@ func get_missing_requirements() -> Array[String]:
 	var missing: Array[String] = []
 	if get_zone_quality("nose") <= 0.0:
 		missing.append("cone")
-	var fins_remaining: int = maxi(0, 2 - get_snapped_fin_count())
+	var fins_remaining: int = maxi(0, REQUIRED_FIN_COUNT - get_snapped_fin_count())
 	if fins_remaining == 1:
 		missing.append("1 aleta")
 	elif fins_remaining > 1:
@@ -186,7 +188,7 @@ func reset_parts(parts: Array[Node]) -> void:
 func _update_readiness() -> void:
 	var has_cone: bool = get_zone_quality("nose") > 0.0
 	var has_energy: bool = get_energy_score() > 0.0
-	var has_fins: bool = get_snapped_fin_count() >= 2
+	var has_fins: bool = get_snapped_fin_count() >= REQUIRED_FIN_COUNT
 	var new_ready: bool = has_cone and has_energy and has_fins
 	if new_ready != _ready_for_launch:
 		_ready_for_launch = new_ready
